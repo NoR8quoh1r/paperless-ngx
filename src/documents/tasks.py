@@ -135,33 +135,48 @@ def consume_file(
             send_progress(status="FAILURE", message=e.args[0])
             raise e
 
-    # read all barcodes in the current document
-    if settings.CONSUMER_ENABLE_BARCODES or settings.CONSUMER_ENABLE_ASN_BARCODE:
-        with BarcodeReader(input_doc.original_file, input_doc.mime_type) as reader:
-            if settings.CONSUMER_ENABLE_BARCODES and reader.separate(
-                input_doc.source,
-                overrides.filename,
-            ):
-                # notify the sender, otherwise the progress bar
-                # in the UI stays stuck
-                send_progress()
-                # consuming stops here, since the original document with
-                # the barcodes has been split and will be consumed separately
-                input_doc.original_file.unlink()
-                return "File successfully split"
-
-            # try reading the ASN from barcode
-            if settings.CONSUMER_ENABLE_ASN_BARCODE and reader.asn is not None:
-                # Note this will take precedence over an API provided ASN
-                # But it's from a physical barcode, so that's good
-                overrides.asn = reader.asn
-                logger.info(f"Found ASN in barcode: {overrides.asn}")
-
     template_overrides = Consumer().get_template_overrides(
         input_doc=input_doc,
     )
 
     overrides.update(template_overrides)
+
+    # read all barcodes in the current document
+    if settings.CONSUMER_ENABLE_BARCODES or settings.CONSUMER_ENABLE_ASN_BARCODE:
+        with BarcodeReader(input_doc.original_file, input_doc.mime_type) as reader:
+            if settings.CONSUMER_ENABLE_BARCODES:
+                split_file = reader.separate(
+                    input_doc.source,
+                    overrides,
+                )
+
+                if split_file is not None:
+                    # notify the sender, otherwise the progress bar
+                    # in the UI stays stuck
+                    send_progress()
+                    # consuming stops here, since the original document with
+                    # the barcodes has been split and will be consumed separately
+                    input_doc.original_file.unlink()
+
+                    input_split_file = ConsumableDocument(
+                        source=input_doc.source,
+                        original_file=split_file,
+                        mailrule_id=input_doc.mailrule_id,
+                    )
+
+                    consume_file.s(
+                        input_split_file,
+                        overrides,
+                    ).delay()
+
+                    return "File successfully split"
+
+                # try reading the ASN from barcode
+                if settings.CONSUMER_ENABLE_ASN_BARCODE and reader.asn is not None:
+                    # Note this will take precedence over an API provided ASN
+                    # But it's from a physical barcode, so that's good
+                    overrides.asn = reader.asn
+                    logger.info(f"Found ASN in barcode: {overrides.asn}")
 
     # continue with consumption if no barcode was found
     document = Consumer().try_consume_file(

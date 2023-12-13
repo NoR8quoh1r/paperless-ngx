@@ -291,7 +291,7 @@ class BarcodeReader:
         self,
         source: DocumentSource,
         override_name: Optional[str] = None,
-    ) -> bool:
+    ) -> Path | None:
         """
         Separates the document, based on barcodes and configuration, creating new
         documents as required in the appropriate location.
@@ -301,7 +301,7 @@ class BarcodeReader:
         # Do nothing
         if not self.supported_mime_type:
             logger.warning(f"Unsupported file format for barcode reader: {self.mime}")
-            return False
+            return None
 
         # Does nothing unless needed
         self.convert_from_tiff_to_pdf()
@@ -314,7 +314,7 @@ class BarcodeReader:
         # Also do nothing
         if not separator_pages:
             logger.warning("No pages to split on!")
-            return False
+            return None
 
         # Create the split documents
         doc_paths = self.separate_pages(separator_pages)
@@ -339,4 +339,5 @@ class BarcodeReader:
                 dest = save_to_dir
             logger.info(f"Saving {document_path} to {dest}")
             copy_file_with_basic_stats(document_path, dest)
-        return True
+
+        return dest
