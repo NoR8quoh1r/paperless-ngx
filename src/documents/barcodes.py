@@ -336,7 +336,7 @@ class BarcodeReader:
                 newname = f"{idx}_{override_name}"
                 dest = save_to_dir / newname
             else:
-                dest = save_to_dir
+                dest = save_to_dir / document_path.name
             logger.info(f"Saving {document_path} to {dest}")
             copy_file_with_basic_stats(document_path, dest)
 

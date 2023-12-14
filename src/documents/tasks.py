@@ -147,7 +147,7 @@ def consume_file(
             if settings.CONSUMER_ENABLE_BARCODES:
                 split_file = reader.separate(
                     input_doc.source,
-                    overrides,
+                    overrides.filename,
                 )
 
                 if split_file is not None:
@@ -165,18 +165,18 @@ def consume_file(
                     )
 
                     consume_file.s(
-                        input_split_file,
-                        overrides,
+                        input_doc=input_split_file,
+                        overrides=overrides,
                     ).delay()
 
                     return "File successfully split"
 
-                # try reading the ASN from barcode
-                if settings.CONSUMER_ENABLE_ASN_BARCODE and reader.asn is not None:
-                    # Note this will take precedence over an API provided ASN
-                    # But it's from a physical barcode, so that's good
-                    overrides.asn = reader.asn
-                    logger.info(f"Found ASN in barcode: {overrides.asn}")
+            # try reading the ASN from barcode
+            if settings.CONSUMER_ENABLE_ASN_BARCODE and reader.asn is not None:
+                # Note this will take precedence over an API provided ASN
+                # But it's from a physical barcode, so that's good
+                overrides.asn = reader.asn
+                logger.info(f"Found ASN in barcode: {overrides.asn}")
 
     # continue with consumption if no barcode was found
     document = Consumer().try_consume_file(
