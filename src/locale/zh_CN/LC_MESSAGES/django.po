@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: paperless-ngx\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-05 08:26-0800\n"
-"PO-Revision-Date: 2023-12-05 16:27\n"
+"PO-Revision-Date: 2023-12-17 00:26\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -553,27 +553,27 @@ msgstr "分享链接"
 
 #: documents/models.py:752
 msgid "String"
-msgstr ""
+msgstr "字符串"
 
 #: documents/models.py:753
 msgid "URL"
-msgstr ""
+msgstr "URL链接"
 
 #: documents/models.py:754
 msgid "Date"
-msgstr ""
+msgstr "日期"
 
 #: documents/models.py:755
 msgid "Boolean"
-msgstr ""
+msgstr "布尔型"
 
 #: documents/models.py:756
 msgid "Integer"
-msgstr ""
+msgstr "整数"
 
 #: documents/models.py:757
 msgid "Float"
-msgstr ""
+msgstr "浮点数"
 
 #: documents/models.py:758
 msgid "Monetary"
@@ -581,27 +581,27 @@ msgstr ""
 
 #: documents/models.py:759
 msgid "Document Link"
-msgstr ""
+msgstr "文档链接"
 
 #: documents/models.py:771
 msgid "data type"
-msgstr ""
+msgstr "数据类型"
 
 #: documents/models.py:779
 msgid "custom field"
-msgstr ""
+msgstr "自定义字段"
 
 #: documents/models.py:780
 msgid "custom fields"
-msgstr ""
+msgstr "自定义字段"
 
 #: documents/models.py:842
 msgid "custom field instance"
-msgstr ""
+msgstr "自定义字段实例"
 
 #: documents/models.py:843
 msgid "custom field instances"
-msgstr ""
+msgstr "自定义字段实例"
 
 #: documents/models.py:891
 msgid "Consume Folder"
@@ -685,7 +685,7 @@ msgstr "为这些用户组授予修改权限"
 
 #: documents/models.py:1019
 msgid "assign these custom fields"
-msgstr ""
+msgstr "分配这些自定义字段"
 
 #: documents/models.py:1023
 msgid "consumption template"
@@ -868,7 +868,7 @@ msgstr "白俄罗斯语"
 
 #: paperless/settings.py:590
 msgid "Bulgarian"
-msgstr ""
+msgstr "保加利亚语"
 
 #: paperless/settings.py:591
 msgid "Catalan"
@@ -908,7 +908,7 @@ msgstr "法语"
 
 #: paperless/settings.py:600
 msgid "Hungarian"
-msgstr ""
+msgstr "匈牙利语"
 
 #: paperless/settings.py:601
 msgid "Italian"
@@ -1180,7 +1180,7 @@ msgstr ""
 
 #: paperless_mail/models.py:160
 msgid "Do not consume documents which entirely match this filename if specified. Wildcards such as *.pdf or *invoice* are allowed. Case insensitive."
-msgstr ""
+msgstr "如果指定了文件名，不要处理完全匹配此文件名的文档。允许使用通配符，如 *.pdf 或 *发票*。不区分大小写。"
 
 #: paperless_mail/models.py:167
 msgid "maximum age"
