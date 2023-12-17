@@ -97,6 +97,10 @@ steps described in [Docker setup](#docker_hub) automatically.
 
     Don't change the part after the colon or paperless wont find your
     documents.
+    
+    !!! note
+    
+        When running with SELinux, this may need be taken into account e.g. by adding :Z for consume and export.
 
     You may also need to change the default port that the webserver will
     use from the default (8000):
@@ -137,7 +141,11 @@ steps described in [Docker setup](#docker_hub) automatically.
     >   user: <user_id>
     > ```
 
-5.  Modify `docker-compose.env`, following the comments in the file. The
+    !!! note
+
+        This is not required for podman and will break things. Similarly `USERMAP_UID` and `USERMAP_GID` should be unset or set to 0.
+    
+6.  Modify `docker-compose.env`, following the comments in the file. The
     most important change is to set `USERMAP_UID` and `USERMAP_GID` to
     the uid and gid of your user on the host system. Use `id -u` and
     `id -g` to get these.
@@ -168,9 +176,9 @@ steps described in [Docker setup](#docker_hub) automatically.
         [`PAPERLESS_CONSUMER_POLLING`](configuration.md#PAPERLESS_CONSUMER_POLLING), which will disable inotify. See
         [here](configuration.md#polling).
 
-6.  Run `docker compose pull`. This will pull the image.
+7.  Run `docker compose pull`. This will pull the image.
 
-7.  To be able to login, you will need a super user. To create it,
+8.  To be able to login, you will need a super user. To create it,
     execute the following command:
 
     ```shell-session
@@ -186,9 +194,9 @@ steps described in [Docker setup](#docker_hub) automatically.
     This will prompt you to set a username, an optional e-mail address
     and finally a password (at least 8 characters).
 
-8.  Run `docker compose up -d`. This will create and start the necessary containers.
+9.  Run `docker compose up -d`. This will create and start the necessary containers.
 
-9.  The default `docker-compose.yml` exports the webserver on your local
+10.  The default `docker-compose.yml` exports the webserver on your local
     port
 
     8000\. If you did not change this, you should now be able to visit
